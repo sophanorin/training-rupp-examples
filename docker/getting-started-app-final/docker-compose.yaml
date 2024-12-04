@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+    app:
+        image: getting-started-app
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: sh -c "yarn install && yarn run dev"
+        volumes:
+            - ./:/app
+        ports:
+            - '3000:3000'
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: root
+            MYSQL_PASSWORD: secret
+            MYSQL_DB: todos
+
+    mysql:
+        image: mysql:8.0
+        volumes:
+            - ./db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: todos
